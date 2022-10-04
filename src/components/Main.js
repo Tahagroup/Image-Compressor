@@ -11,6 +11,7 @@ function Main() {
   }
   function closePreviewHandler() {
     setselectedFile(undefined);
+    setfileCompressSummary(undefined);
   }
   /////////////////////////////////////////////////
   return (

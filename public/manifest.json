@@ -1,6 +1,6 @@
 {
-  "short_name": "Image Converter",
-  "name": "Image Converter",
+  "short_name": "Image Compressor",
+  "name": "Image Compressor",
   "icons": [
     {
       "src": "favicon.ico",

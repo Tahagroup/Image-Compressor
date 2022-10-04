@@ -1,4 +1,12 @@
-import { Box, Button, Card, CardMedia, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Typography,
+} from "@mui/material";
 import React from "react";
 
 function ImagePreview(props) {
@@ -24,13 +32,43 @@ function ImagePreview(props) {
       mt={7}
       sx={{
         display: "flex",
-        alignItems: "center",
+        flexDirection: "row-reverse",
+        gap: "15px",
+        alignItems: "stretch",
         justifyContent: "center",
       }}
     >
+      <Card>
+        <CardContent>
+          <Typography>{`Original file size: ${(
+            props.fileCompressSummary.beforeSize /
+            1024 /
+            1024
+          ).toFixed(2)} MB`}</Typography>
+          <Typography>{`Compressed file size: ${(
+            props.fileCompressSummary.afterSize /
+            1024 /
+            1024
+          ).toFixed(2)}  MB`}</Typography>
+          <hr></hr>
+          <Typography>
+            {"options: "} <br />
+            {`file's max size: ${props.fileCompressSummary.maxSizeMB} MB`}{" "}
+            <br />
+            {`image's max width/height: ${props.fileCompressSummary.maxWidthOrHeight} Pixels`}
+          </Typography>
+        </CardContent>
+        <CardActions
+          sx={{ justifyContent: "space-around", alignSelf: "flex-end" }}
+        >
+          <Button variant="outlined">Again</Button>
+        </CardActions>
+      </Card>
+      <Card>Image</Card>
+      {/* Image Preview Card */}
       <Card
         sx={{
-          borderRadius: "1rem",
+          // borderRadius: "1rem",
           boxShadow: "none",
           position: "relative",
           textAlign: "center",
@@ -87,19 +125,13 @@ function ImagePreview(props) {
           </Box>
           <Typography fontWeight={"bold"} fontSize={"80px"}>
             -{" "}
-            {Math.round(
+            {Math.ceil(
               100 -
                 (props.fileCompressSummary.afterSize /
                   props.fileCompressSummary.beforeSize) *
                   100
             )}
             {"%"}
-          </Typography>
-          <Typography>
-            {"options: "} <br />
-            {`file's max size: ${props.fileCompressSummary.maxSizeMB} MB`}{" "}
-            <br />
-            {`image's max width/height: ${props.fileCompressSummary.maxWidthOrHeight} Pixels`}
           </Typography>
           <Button
             variant="contained"

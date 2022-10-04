@@ -5,12 +5,19 @@ import {
   AppBar,
   Toolbar,
   Tab,
-  // LinkTab,
   Tabs,
   useTheme,
+  IconButton,
 } from "@mui/material";
-import { Brightness7, Brightness4 } from "@mui/icons-material";
+import {
+  Brightness7,
+  Brightness4,
+  Home,
+  Help,
+  Email,
+} from "@mui/icons-material";
 import { ThemeContext } from "../../context/ThemeContext";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const theme = useTheme();
@@ -28,18 +35,29 @@ const Header = () => {
           sx={{ marginLeft: "auto" }}
           value={selectedTab}
           onChange={tabChangeHandler}
+          indicatorColor="secondary"
           centered
+          style={{
+            margin: "auto",
+          }}
         >
-          <LinkTab label="Home" href="/" />
-          <LinkTab label="How it works" href="/guide" />
-          <LinkTab label="Contact me" href="/contact" />
+          <Tab icon={<Home />} label="Home" component={Link} to="/" />
           <Tab
-            icon={
-              theme.palette.mode === "dark" ? <Brightness7 /> : <Brightness4 />
-            }
-            onClick={themeContext.changeTheme}
+            icon={<Help />}
+            label="How it works"
+            component={Link}
+            to="how-it-works"
+          />
+          <Tab
+            icon={<Email />}
+            label="Contact me"
+            component={Link}
+            to="contact"
           />
         </Tabs>
+        <IconButton onClick={themeContext.changeTheme}>
+          {theme.palette.mode === "dark" ? <Brightness7 /> : <Brightness4 />}
+        </IconButton>
       </Toolbar>
     </AppBar>
   );
@@ -48,10 +66,10 @@ const Header = () => {
 export default Header;
 
 function LinkTab(props) {
-  // This component's job is to prevent the browser default of restarting
+  // This component's job is to prevent the browser default of reloading the page
   return (
     <Tab
-      component="a"
+      component={Link}
       onClick={(event) => {
         event.preventDefault();
       }}
