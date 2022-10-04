@@ -32,14 +32,11 @@ const Header = () => {
         <Typography variant="h6">Image Compressor</Typography>
         <Tabs
           textColor="inherit"
-          sx={{ marginLeft: "auto" }}
+          sx={{ margin: "auto" }}
           value={selectedTab}
           onChange={tabChangeHandler}
           indicatorColor="secondary"
           centered
-          style={{
-            margin: "auto",
-          }}
         >
           <Tab icon={<Home />} label="Home" component={Link} to="/" />
           <Tab

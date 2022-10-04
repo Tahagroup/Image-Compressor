@@ -1,7 +1,7 @@
 import "./App.css";
 import { useContext } from "react";
 import { ThemeContext } from "./context/ThemeContext";
-import { createTheme, ThemeProvider } from "@mui/material";
+import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import Header from "./components/header/Header";
 import Main from "./components/Main";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -14,6 +14,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <div className="App">
+        <CssBaseline />
         <Header />
         <Routes>
           <Route path="/" element={<Main />}></Route>
