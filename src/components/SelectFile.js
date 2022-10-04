@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import "./SelectFile.css";
-import { Box, InputAdornment, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  InputAdornment,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { UploadFile } from "@mui/icons-material";
 import imageCompression from "browser-image-compression";
 
@@ -8,6 +14,7 @@ function SelectFile(props) {
   const [dragActive, setDragActive] = React.useState(false);
   const [maxSizeTF, setmaxSizeTF] = useState(1);
   const [maxWHTF, setmaxWHTF] = useState(1920);
+  const [isLoading, setIsLoading] = useState(false);
   /////////////////////////////////////////////////
   function maxSizeTFHandler(event) {
     setmaxSizeTF(event.target.value);
@@ -23,8 +30,9 @@ function SelectFile(props) {
       maxWidthOrHeight: 1920,
     }
   ) {
+    setIsLoading(true);
     const imageFile = file;
-    console.log(`originalFile size ${imageFile.size / 1024 / 1024} MB`);
+    // console.log(`originalFile size ${imageFile.size / 1024 / 1024} MB`);
 
     const options = {
       ...providedOptions,
@@ -34,14 +42,26 @@ function SelectFile(props) {
     };
     try {
       const compressedFile = await imageCompression(imageFile, options);
-      console.log(
-        `compressedFile size ${compressedFile.size / 1024 / 1024} MB`
-      ); // smaller than maxSizeMB
-      props.onFileChange(URL.createObjectURL(compressedFile));
-      console.log(compressedFile);
+      // console.log(
+      //   `compressedFile size ${compressedFile.size / 1024 / 1024} MB`
+      // ); // smaller than maxSizeMB
+      const fileCompressSummary = {
+        maxSizeMB: providedOptions.maxSizeMB,
+        maxWidthOrHeight: providedOptions.maxWidthOrHeight,
+        beforeSize: imageFile.size,
+        afterSize: compressedFile.size,
+        fileName: imageFile.name,
+      };
+      // console.log(fileCompressSummary);
+      props.onFileChange(
+        URL.createObjectURL(compressedFile),
+        fileCompressSummary
+      );
+      // console.log(compressedFile);
     } catch (error) {
       console.log(error);
     }
+    setIsLoading(false);
   }
   /////////////////////////////////////////////////
 
@@ -57,28 +77,28 @@ function SelectFile(props) {
   };
 
   // triggers when file is dropped in zone
-  const handleDropEvent = function (e) {
+  const handleDropEvent = async function (e) {
     e.preventDefault();
     e.stopPropagation();
     setDragActive(false);
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      handleImageUpload(e.dataTransfer.files[0], {
+      await handleImageUpload(e.dataTransfer.files[0], {
         maxSizeMB: maxSizeTF || 1,
         maxWidthOrHeight: maxWHTF || 1920,
       });
-      props.onFileChange(URL.createObjectURL(e.dataTransfer.files[0]));
+      // props.onFileChange(URL.createObjectURL(e.dataTransfer.files[0]));
     }
   };
 
   // triggers when file is selected with button
-  const handleChange = function (e) {
+  const handleChange = async function (e) {
     e.preventDefault();
     if (e.target.files && e.target.files[0]) {
-      handleImageUpload(e.target.files[0], {
+      await handleImageUpload(e.target.files[0], {
         maxSizeMB: maxSizeTF || 1,
         maxWidthOrHeight: maxWHTF || 1920,
       });
-      props.onFileChange(URL.createObjectURL(e.target.files[0]));
+      // props.onFileChange(URL.createObjectURL(e.target.files[0]));
     }
   };
   //////// return: //////////////////////////////////////////////////
@@ -142,12 +162,15 @@ function SelectFile(props) {
             htmlFor="input-file-upload"
             className={dragActive ? "drag-active" : ""}
           >
-            <Box sx={{ textAlign: "center" }}>
-              <Typography mb={1}>
-                Drag and drop your file or click here
-              </Typography>
-              <UploadFile fontSize="large" />
-            </Box>
+            {isLoading && <CircularProgress />}
+            {!isLoading && (
+              <Box sx={{ textAlign: "center" }}>
+                <Typography mb={1}>
+                  Drag and drop your file or click here
+                </Typography>
+                <UploadFile fontSize="large" />
+              </Box>
+            )}
           </label>
           {dragActive && (
             <div

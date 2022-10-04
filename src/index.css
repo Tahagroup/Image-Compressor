@@ -4,6 +4,9 @@ body {
   font-family: "Balsamiq Sans", cursive;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-image: url("./bg.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 code {

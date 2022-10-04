@@ -2,6 +2,23 @@ import { Box, Button, Card, CardMedia, Typography } from "@mui/material";
 import React from "react";
 
 function ImagePreview(props) {
+  function downloadButtonHandler(url) {
+    const a = document.createElement("a");
+    a.href = url;
+    // create filename + compressed
+    a.download = `${props.fileCompressSummary.fileName
+      .split(".")
+      .slice(0, -1)}-compressed.${props.fileCompressSummary.fileName
+      .split(".")
+      .pop()}`;
+    a.url = url.split("/").pop();
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
+  function closePreviewHandler() {
+    props.onClose();
+  }
   return (
     <Box
       mt={7}
@@ -58,19 +75,40 @@ function ImagePreview(props) {
               alignItems: "center",
             }}
           >
-            <Typography>Array Methods.png</Typography>
+            <Typography>{props.fileCompressSummary.fileName}</Typography>
             <Button
               sx={{
                 color: "#fff",
               }}
+              onClick={closePreviewHandler}
             >
               ✖
             </Button>
           </Box>
           <Typography fontWeight={"bold"} fontSize={"80px"}>
-            - 83%
+            -{" "}
+            {Math.round(
+              100 -
+                (props.fileCompressSummary.afterSize /
+                  props.fileCompressSummary.beforeSize) *
+                  100
+            )}
+            {"%"}
           </Typography>
-          <Button variant="contained">Download</Button>
+          <Typography>
+            {"options: "} <br />
+            {`file's max size: ${props.fileCompressSummary.maxSizeMB} MB`}{" "}
+            <br />
+            {`image's max width/height: ${props.fileCompressSummary.maxWidthOrHeight} Pixels`}
+          </Typography>
+          <Button
+            variant="contained"
+            onClick={() => {
+              downloadButtonHandler(props.selectedFile);
+            }}
+          >
+            Download
+          </Button>
         </Box>
       </Card>
     </Box>
