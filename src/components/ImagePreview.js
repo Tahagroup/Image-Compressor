@@ -8,18 +8,20 @@ import {
   Grid,
   IconButton,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import React from "react";
 
 function ImagePreview(props) {
-  function downloadButtonHandler(url) {
+  function downloadButtonHandler(url, suffix) {
     const a = document.createElement("a");
     a.href = url;
     // create filename + compressed
     a.download = `${props.fileCompressSummary.fileName
       .split(".")
-      .slice(0, -1)}-compressed.${props.fileCompressSummary.fileName
+      .slice(0, -1)}-${suffix}.${props.fileCompressSummary.fileName
       .split(".")
       .pop()}`;
     a.url = url.split("/").pop();
@@ -30,8 +32,19 @@ function ImagePreview(props) {
   function closePreviewHandler() {
     props.onClose();
   }
+  const theme = useTheme();
+  const mobile = useMediaQuery("(max-width:600px)");
+
+  // console.log(theme.palette.primary.main);
   return (
-    <Grid container spacing={2} justifyContent="center" p={8}>
+    <Grid
+      container
+      spacing={2}
+      justifyContent="center"
+      p={mobile ? 2 : 8}
+      pl={mobile ? 2 : 15}
+      pr={mobile ? 2 : 15}
+    >
       <Grid item lg>
         {/* Image Preview Card */}
         <Card
@@ -40,7 +53,7 @@ function ImagePreview(props) {
             boxShadow: "none",
             position: "relative",
             textAlign: "center",
-            // maxWidth: 500,
+            // maxWidth: 700,
             // maxHeight: 360,
             "&::after": {
               content: '""',
@@ -50,7 +63,7 @@ function ImagePreview(props) {
               height: "100%",
               bottom: 0,
               zIndex: 0,
-              background: "rgba(0,0,0,0.5)",
+              background: "rgba(0,0,0,0.6)",
             },
           }}
         >
@@ -58,7 +71,7 @@ function ImagePreview(props) {
             component="img"
             sx={{ zIndex: "1" }}
             height="440"
-            image={`${props.selectedFile}`}
+            image={`${props.selectedFile.compressed}`}
           />
           <Box
             sx={{
@@ -70,7 +83,7 @@ function ImagePreview(props) {
               color: "#fff",
               display: "flex",
               flexDirection: "column",
-              justifyContent: "space-between",
+              justifyContent: "flex-start",
             }}
           >
             <Box
@@ -81,20 +94,19 @@ function ImagePreview(props) {
                 alignItems: "center",
               }}
             >
-              <Typography>{props.fileCompressSummary.fileName}</Typography>
+              <Typography component="div">
+                {props.fileCompressSummary.fileName}
+              </Typography>
               <IconButton onClick={closePreviewHandler} size="large">
                 <CloseIcon sx={{ color: "white" }} fontSize="inherit" />
               </IconButton>
-              {/* <Button
-                sx={{
-                  color: "#fff",
-                }}
-                onClick={closePreviewHandler}
-              >
-                ✖
-              </Button> */}
             </Box>
-            <Typography fontWeight={"bold"} fontSize={"80px"}>
+            <Typography
+              component="div"
+              fontWeight={"bold"}
+              fontSize={"100px"}
+              mt={7}
+            >
               -{" "}
               {Math.ceil(
                 100 -
@@ -103,15 +115,8 @@ function ImagePreview(props) {
                     100
               )}
               {"%"}
+              <Typography component="div">Saved!</Typography>
             </Typography>
-            <Button
-              variant="contained"
-              onClick={() => {
-                downloadButtonHandler(props.selectedFile);
-              }}
-            >
-              Download
-            </Button>
           </Box>
         </Card>
       </Grid>
@@ -120,18 +125,30 @@ function ImagePreview(props) {
         item
         flexDirection="column"
         lg={4}
-        spacing={2}
-        sx={{ width: "100%" }}
+        sm={12}
+        sx={{
+          width: "100%",
+          "&>div": {
+            paddingBottom: "16px",
+          },
+        }}
       >
         <Grid item>
           <Card>
-            <CardContent>
-              <Typography>{`Original file size: ${(
+            <CardContent
+              sx={{
+                padding: "22px",
+                "&:last-child": {
+                  paddingBottom: "22px",
+                },
+              }}
+            >
+              <Typography component="div">{`Original file size: ${(
                 props.fileCompressSummary.beforeSize /
                 1024 /
                 1024
               ).toFixed(2)} MB`}</Typography>
-              <Typography>{`Compressed file size: ${(
+              <Typography component="div">{`Compressed file size: ${(
                 props.fileCompressSummary.afterSize /
                 1024 /
                 1024
@@ -142,18 +159,81 @@ function ImagePreview(props) {
         <Grid item>
           <Card>
             <CardContent>
-              <Typography>
-                {"options: "} <br />
-                {`file's max size: ${props.fileCompressSummary.maxSizeMB} MB`}{" "}
+              <Typography component="div" gutterBottom variant="h5">
+                Your Options
+              </Typography>
+              <hr />
+              <Typography component="div">
+                {`File's max size: ${props.fileCompressSummary.maxSizeMB} MB`}{" "}
                 <br />
-                {`image's max width/height: ${props.fileCompressSummary.maxWidthOrHeight} Pixels`}
+                {`Image's max width/height: ${props.fileCompressSummary.maxWidthOrHeight} Pixels`}
               </Typography>
             </CardContent>
             <CardActions
               sx={{ justifyContent: "space-around", alignSelf: "flex-end" }}
             >
-              <Button variant="outlined">Again</Button>
+              <Button
+                onClick={closePreviewHandler}
+                variant="outlined"
+                sx={{
+                  textTransform: "none",
+                  backgroundColor: theme.palette.action.active,
+                  color: "#000",
+                  "&:hover": {
+                    backgroundColor: theme.palette.action.selected,
+                  },
+                }}
+              >
+                Retry
+              </Button>
             </CardActions>
+          </Card>
+        </Grid>
+        {/* 3rd Card */}
+        <Grid item>
+          <Card>
+            <CardContent
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "16px",
+                "&:last-child": {
+                  paddingBottom: "16px",
+                },
+              }}
+            >
+              <Button
+                variant="contained"
+                sx={{
+                  textTransform: "none",
+                }}
+                size="large"
+                onClick={() => {
+                  downloadButtonHandler(
+                    props.selectedFile.original,
+                    "original"
+                  );
+                }}
+              >
+                Download Original File
+              </Button>
+              <Button
+                variant="contained"
+                size="large"
+                sx={{
+                  textTransform: "none",
+                }}
+                onClick={() => {
+                  downloadButtonHandler(
+                    props.selectedFile.compressed,
+                    "compressed"
+                  );
+                }}
+              >
+                {" "}
+                Download Compressed File
+              </Button>
+            </CardContent>
           </Card>
         </Grid>
       </Grid>

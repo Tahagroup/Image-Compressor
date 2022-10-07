@@ -1,12 +1,12 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import ImagePreview from "./ImagePreview";
 import SelectFile from "./SelectFile";
 function Main() {
   const [selectedFile, setselectedFile] = useState();
   const [fileCompressSummary, setfileCompressSummary] = useState();
-  function fileChangeHandler(file, summary) {
-    // console.log({ file, summary });
-    setselectedFile(file);
+  function fileChangeHandler(files, summary) {
+    // console.log({ files, summary });
+    setselectedFile(files);
     setfileCompressSummary(summary);
   }
   function closePreviewHandler() {

@@ -1,15 +1,25 @@
-@import url("https://fonts.googleapis.com/css2?family=Balsamiq+Sans:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Arvo:wght@400;700&display=swap");
 body {
   margin: 0;
-  font-family: "Balsamiq Sans", cursive;
+  font-family: "Arvo", serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-image: url("./bg.jpg");
   background-size: cover;
-  background-repeat: no-repeat;
+  @mediaq background-repeat: no-repeat;
+  /* filter: brightness(0.3); */
 }
-
+@media only screen and (max-width: 600px) {
+  body {
+    background-size: inherit;
+  }
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+a {
+  text-decoration: none;
+  color: #075e54;
 }
