@@ -6,11 +6,12 @@ import {
   InputAdornment,
   LinearProgress,
   TextField,
+  Tooltip,
   Typography,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { BorderColor, UploadFile } from "@mui/icons-material";
+import { BorderColor, Help, UploadFile } from "@mui/icons-material";
 import imageCompression from "browser-image-compression";
 import CustomSnackbar from "./utilities/CustomSnackbar";
 
@@ -156,9 +157,10 @@ function SelectFile(props) {
   //////// return: //////////////////////////////////////////////////////////////////
   return (
     <Box>
-      <Box
-        mt={3}
-        sx={{
+      <form
+        autoComplete="off"
+        style={{
+          marginTop: "24px",
           display: "flex",
           flexDirection: mobile ? "column" : "row",
           gap: "10px",
@@ -171,35 +173,42 @@ function SelectFile(props) {
         }}
       >
         {mobile && <Typography>Options:</Typography>}
-        <TextField
-          variant="filled"
-          sx={{
-            width: "200px",
-            "&::focus": theme.palette.text.secondary,
-            color: theme.palette.text.secondary,
-          }}
-          label="Max file size"
-          type="tel"
-          value={maxSizeTF}
-          onChange={maxSizeTFHandler}
-          InputProps={{
-            endAdornment: <InputAdornment position="end">MB</InputAdornment>,
-          }}
-        />
-        <TextField
-          variant="filled"
-          sx={{
-            width: "200px",
-          }}
-          label="Max size of sides"
-          type="tel"
-          value={maxWHTF}
-          onChange={maxWHTFHandler}
-          InputProps={{
-            endAdornment: <InputAdornment position="end">px</InputAdornment>,
-          }}
-        />
-      </Box>
+        <Tooltip title="limites output file size to the specified value" arrow>
+          <TextField
+            variant="filled"
+            sx={{
+              width: "200px",
+              "&::focus": theme.palette.text.secondary,
+              color: theme.palette.text.secondary,
+            }}
+            label="Max file size"
+            type="tel"
+            value={maxSizeTF}
+            onChange={maxSizeTFHandler}
+            InputProps={{
+              endAdornment: <InputAdornment position="end">MB</InputAdornment>,
+            }}
+          />
+        </Tooltip>
+        <Tooltip
+          title="makes image's both height & width smaller than the provided value"
+          arrow
+        >
+          <TextField
+            variant="filled"
+            sx={{
+              width: "200px",
+            }}
+            label="Max size of sides"
+            type="tel"
+            value={maxWHTF}
+            onChange={maxWHTFHandler}
+            InputProps={{
+              endAdornment: <InputAdornment position="end">px</InputAdornment>,
+            }}
+          />
+        </Tooltip>
+      </form>
       <Box
         display="flex"
         flexDirection={"column"}
