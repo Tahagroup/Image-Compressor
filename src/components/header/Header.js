@@ -21,7 +21,7 @@ import {
   Menu,
   Close,
 } from "@mui/icons-material";
-import { ThemeContext } from "../../context/ThemeContext";
+import { ThemeContext } from "../context/ThemeContext";
 import { Link } from "react-router-dom";
 
 const Header = () => {
