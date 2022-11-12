@@ -5,7 +5,6 @@ function PageNotFound() {
   return (
     <Box
       sx={{
-        margin: "auto",
         display: "flex",
         justifyContent: "center",
         textAlign: "center",

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "./SelectFile.css";
 import {
   Box,
-  Button,
   InputAdornment,
   LinearProgress,
   TextField,
@@ -11,7 +10,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { BorderColor, Help, UploadFile } from "@mui/icons-material";
+import { UploadFile } from "@mui/icons-material";
 import imageCompression from "browser-image-compression";
 import CustomSnackbar from "./utilities/CustomSnackbar";
 
@@ -66,13 +65,13 @@ function SelectFile(props) {
     async function getImageDimensions(image) {
       let url = URL.createObjectURL(image);
       let img = new Image();
-      let originalImageDimensions;
-      img.onload = function () {
-        originalImageDimensions = {
-          height: img.height,
-          width: img.width,
-        };
-      };
+      // let originalImageDimensions;
+      // img.onload = function () {
+      //   originalImageDimensions = {
+      //     height: img.height,
+      //     width: img.width,
+      //   };
+      // };
       img.src = url;
       return {
         height: img.height,
@@ -151,9 +150,9 @@ function SelectFile(props) {
       // props.onFileChange(URL.createObjectURL(e.target.files[0]));
     }
   };
-  async function cancelHandler() {
-    // props.onFileChange(undefined, undefined);
-  }
+  //async function cancelHandler() {
+  // props.onFileChange(undefined, undefined);
+  //}
   //////// return: //////////////////////////////////////////////////////////////////
   return (
     <Box>

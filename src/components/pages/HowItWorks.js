@@ -1,11 +1,4 @@
-import {
-  Box,
-  Card,
-  CardContent,
-  CardHeader,
-  Typography,
-  useTheme,
-} from "@mui/material";
+import { Box, Card, CardContent, useTheme } from "@mui/material";
 import React from "react";
 
 function HowItWorks() {
