@@ -65,13 +65,6 @@ function SelectFile(props) {
     async function getImageDimensions(image) {
       let url = URL.createObjectURL(image);
       let img = new Image();
-      // let originalImageDimensions;
-      // img.onload = function () {
-      //   originalImageDimensions = {
-      //     height: img.height,
-      //     width: img.width,
-      //   };
-      // };
       img.src = url;
       return {
         height: img.height,
@@ -79,7 +72,6 @@ function SelectFile(props) {
       };
     }
     const originalImageDimensions = await getImageDimensions(imageFile);
-    //
     try {
       if (
         providedOptions.maxSizeMB < 0.01 ||
@@ -135,7 +127,6 @@ function SelectFile(props) {
         maxSizeMB: maxSizeTF || 1,
         maxWidthOrHeight: maxWHTF || 1920,
       });
-      // props.onFileChange(URL.createObjectURL(e.dataTransfer.files[0]));
     }
   };
 
@@ -147,13 +138,9 @@ function SelectFile(props) {
         maxSizeMB: maxSizeTF || 1,
         maxWidthOrHeight: maxWHTF || 1920,
       });
-      // props.onFileChange(URL.createObjectURL(e.target.files[0]));
     }
   };
-  //async function cancelHandler() {
-  // props.onFileChange(undefined, undefined);
-  //}
-  //////// return: //////////////////////////////////////////////////////////////////
+
   return (
     <Box>
       <form
@@ -166,9 +153,6 @@ function SelectFile(props) {
           justifyContent: "center",
           alignItems: "center",
           alignContent: "center",
-          "&::focus": {
-            // fontSize: "50px",
-          },
         }}
       >
         {mobile && <Typography>Options:</Typography>}

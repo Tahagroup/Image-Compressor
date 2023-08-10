@@ -3,7 +3,6 @@ export const ThemeContext = React.createContext({
   mode: "",
   changeTheme: () => {},
 });
-//////////////////////////////////////////////////////////////
 
 const ThemeContexProvider = (props) => {
   const [mode, setMode] = useState("light");

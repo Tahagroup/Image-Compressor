@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import logo from "../../logo.png";
-import Styles from "./Header.module.css";
+import styles from "./Header.module.css";
 import {
   Typography,
   AppBar,
@@ -44,8 +44,7 @@ const Header = () => {
         <Box
           sx={{
             display: "flex",
-            flexDirection: !openMenu ? "row-reverse" : "column",
-            // flexDirection: mobile ? "column" : "row-reverse",
+            flexDirection: openMenu ? "column" : "row-reverse",
             alignItems: "center",
             justifyContent: "space-around",
           }}
@@ -55,8 +54,8 @@ const Header = () => {
             alt="logo"
             className={
               openMenu && mobile
-                ? Styles.header__logo__large
-                : Styles.header__logo
+                ? styles.header__logo__large
+                : styles.header__logo
             }
             src={logo}
           />

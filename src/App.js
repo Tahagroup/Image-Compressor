@@ -16,7 +16,7 @@ import PageNotFound from "./components/pages/PageNotFound";
 
 function App() {
   const themeContext = useContext(ThemeContext);
-  const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
+  const prefersDarkMode = useMediaQuery("(prefers-color-scheme: light)");
   let mode = themeContext.mode;
   if (prefersDarkMode) {
     mode = "dark";
@@ -87,7 +87,6 @@ function App() {
           <Route path="/contact" element={<Contact />}></Route>
           <Route path="*" element={<PageNotFound />}></Route>
         </Routes>
-        {/* <Main /> */}
       </div>
     </ThemeProvider>
   );

@@ -5,7 +5,6 @@ function Main() {
   const [selectedFile, setselectedFile] = useState();
   const [fileCompressSummary, setfileCompressSummary] = useState();
   function fileChangeHandler(files, summary) {
-    // console.log({ files, summary });
     setselectedFile(files);
     setfileCompressSummary(summary);
   }
@@ -13,7 +12,7 @@ function Main() {
     setselectedFile(undefined);
     setfileCompressSummary(undefined);
   }
-  /////////////////////////////////////////////////
+
   return (
     <>
       {!selectedFile && <SelectFile onFileChange={fileChangeHandler} />}
